@@ -459,13 +459,33 @@ public class STPPaymentOptionsViewController: STPCoreViewController,
                 paymentOptionsVC?.update(with: paymentTuple)
               }
             })
-            self.finish(with: paymentMethod)
+            self.finish_update(with: paymentMethod)
           }
         })
       }
     }
   }
+  //修改添加卡片默认支付问题
+  func finish_update(with paymentOption: STPPaymentOption?) {
+      let isReusablePaymentMethod =
+        (paymentOption is STPPaymentMethod)
+        && (paymentOption as? STPPaymentMethod)?.isReusable ?? false
 
+      if apiAdapter is STPCustomerContext {
+        if isReusablePaymentMethod {
+          // Save the payment method
+          let paymentMethod = paymentOption as? STPPaymentMethod
+          (apiAdapter as? STPCustomerContext)?.saveLastSelectedPaymentMethodID(
+            forCustomer: paymentMethod?.stripeId ?? "", completion: nil)
+        } else {
+          // The customer selected something else (like Apple Pay)
+          (apiAdapter as? STPCustomerContext)?.saveLastSelectedPaymentMethodID(
+            forCustomer: nil, completion: nil)
+        }
+      }
+    navigationController?.popViewController(animated: true)
+  }
+  
   func internalViewControllerDidCancel() {
     delegate?.paymentOptionsViewControllerDidCancel(self)
   }
