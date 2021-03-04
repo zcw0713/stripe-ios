@@ -359,7 +359,7 @@ public class STPPaymentContext: NSObject, STPAuthenticationContext,
         return
       }
       strongSelf.paymentOptions = tuple.paymentOptions
-      strongSelf.selectedPaymentOption = tuple.selectedPaymentOption
+//       strongSelf.selectedPaymentOption = tuple.selectedPaymentOption
     }).onFailure({ error in
       guard let strongSelf = weakSelf else {
         return
