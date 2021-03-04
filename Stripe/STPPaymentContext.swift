@@ -359,6 +359,7 @@ public class STPPaymentContext: NSObject, STPAuthenticationContext,
         return
       }
       strongSelf.paymentOptions = tuple.paymentOptions
+//ZCW:关闭默认支付功能                                                                         
 //       strongSelf.selectedPaymentOption = tuple.selectedPaymentOption
     }).onFailure({ error in
       guard let strongSelf = weakSelf else {
